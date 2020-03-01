@@ -41,10 +41,10 @@ startButton.addEventListener('click', () => {
 
 // check if a letter is in the phrase
 const checkLetter = button => {
-    let guess = getElementsByClass('letter');
+    let guess = document.getElementsByClassName('letter');
     let match = null;
     for (let i=0; i<guess.length; i++){
-        if (guess.textContent.toLowercase() === button.toLowercase()) {
+        if (guess[i].textContent.toLowerCase() === button.toLowerCase()) {
             guess[i].classList.add('show');
         } else {
             match = button;
@@ -55,18 +55,32 @@ const checkLetter = button => {
 
 // check if the game has been won or lost
 const checkWin = () => {
-
+    const letterGuess = document.getElementsByClassName('letter');
+    const showGuess = document.getElementsByClassName('show');
+    
+    if (letterGuess.length === showGuess.length){
+        overlay.classList.add('win');
+        document.getElementById('overlay').innerHTML = 'Congratulations! You won!';
+        overlay.style.display = 'flex';
+    if (missed > 4) {
+        overlay.classList.add('lose');
+        document.getElementById('overlay').innerHTML = 'Sorry, you lost!';
+        overlay.style.display = 'flex';
+    }
+    }
 }
 
 // listen for the onscreen keyboard to be clicked
 qwerty.addEventListener('click', e =>{
     let selectedButton = e.target;
-    if (selectedButton === document.getElementsByClassName('Button')){
+    if (selectedButton.tagName === 'button'){
         selectedButton.classList.add('chosen');
     }
-    playerGuess = checkLetter(selectedButton);
+    playerGuess = checkLetter(selectedButton.textContent);
     if (playerGuess != selectedButton){
-        
         missed += 1;
+        let hearts = document.getElementsByTagName('img');
+        hearts[5 - missed].src = 'images/lostHeart.png';
     }
+    checkWin();
 });
