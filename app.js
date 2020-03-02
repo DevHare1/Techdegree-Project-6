@@ -72,12 +72,13 @@ qwerty.addEventListener("click", e => {
   let selectedButton = e.target;
   if (selectedButton.tagName === "BUTTON") {
     selectedButton.classList.add("chosen");
-  }
-  const playerGuess = checkLetter(selectedButton.textContent);
-  if (playerGuess === null) {
-    missed += 1;
-    let hearts = document.getElementsByTagName("img");
-    hearts[5 - missed].src = "images/lostHeart.png";
+    selectedButton.disabled = true;
+    let playerGuess = checkLetter(selectedButton.textContent);
+    if (playerGuess === null) {
+      missed += 1;
+      let hearts = document.getElementsByTagName("img");
+      hearts[5 - missed].src = "images/lostHeart.png";
+    }
   }
   checkWin();
 });
